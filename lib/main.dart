@@ -1,8 +1,10 @@
-import 'package:demoapp/dashboard.dart';
-import 'package:demoapp/helper.dart';
-import 'package:demoapp/screen/login.dart';
-import 'package:demoapp/screen/registration.dart';
-import 'package:demoapp/screen/user_list.dart';
+
+import 'package:demoapp/model/user_item.dart';
+import 'package:demoapp/pages/dashboard/dashboard_page.dart';
+import 'package:demoapp/pages/login/login_page.dart';
+import 'package:demoapp/pages/sign_up/sign_up_page.dart';
+import 'package:demoapp/pages/user_list/user_list_page.dart';
+import 'package:demoapp/service/user_service.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 
@@ -21,6 +23,7 @@ void main() async {
   ));
 }
 
+
 class HomePage extends StatefulWidget {
   const HomePage({Key? key}) : super(key: key);
 
@@ -30,11 +33,19 @@ class HomePage extends StatefulWidget {
 
 class _HomePageState extends State<HomePage>
     with SingleTickerProviderStateMixin {
+
+  UserService userService = UserService();
+
   @override
   void initState() {
-    isUserAvailable();
-   // super.initState();
+
+      if(userList.isEmpty){
+        userService.isUserAvailable();
+      }
+      super.initState();
   }
+
+
 
   @override
   Widget build(BuildContext context) {
@@ -55,7 +66,6 @@ class _HomePageState extends State<HomePage>
                 'User Integration',
                 style: TextStyle(color: Colors.blue.shade100),
               ),
-              brightness: Brightness.dark,
               backgroundColor: Colors.blue.shade700,
               bottom: TabBar(
                 controller: tabController,
